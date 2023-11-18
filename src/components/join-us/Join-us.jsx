@@ -21,7 +21,7 @@ const JoinUs = () => {
                         Are you passionate about photography and eager to connect with a thriving community of fellow enthusiasts, professionals, and artists? <br/> <br/> Join <strong>Parisukat</strong> today and unlock a world of visual storytelling!
                       </p>
     
-                      <button type="submit" class="btn btn-primary rounded-pill px-5 py-2"><a href="/log-in" class="nav-link mx-auto">Join us</a></button>
+                      <button type="submit" class="btn btn-primary rounded-pill px-5 py-2"><a href="/sign-up" class="nav-link mx-auto">Join us</a></button>
                   </form>
               </div>
           </div>
