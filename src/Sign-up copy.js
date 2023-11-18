@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import Header from "./components/header/Header.jsx";
 import Footer from "./components/footer/Footer.jsx";
 import SignupBanner from "./components/images/sign-up.jpg";
@@ -7,67 +7,70 @@ import SignupBanner from "./components/images/sign-up.jpg";
 const SignUp = () => {
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
 
-    const handleInput = (e) => {
-        this.setUsername({
-          [e.target.name]: e.target.value,
-        }, () => {
-          console.log(this.state); // logs the new values
-        });
-      }
-    const [userDict] = useState([
-        { username: "missy01", password: "password", email: "example@example.com" },
-        { username: "shan01", password: "password01", email: "shan@example.com" },
-      ]);
+    const userDict = [
+            { username: 'missy01', password: 'password', email: 'example@example.com' },
+            { username: 'shan01', password: 'password01', email: 'shan@example.com' },
+            ];
 
-    // Sign up email validation
+            useEffect(() => {
+                const isUnUnique = async () => {
+                  const isUnique = await simulateAsyncCheck(username);
+                  const isLength = await isLengthy(username);
+
+                  if (isUnique) {
+                    setUnNotUniqueMsg('');
+                  } else {
+                    setUnNotUniqueMsg('Username was already used.');
+                  }
+
+                  if (isLength) {
+                    setUnNotUniqueMsg('');
+                  } else {
+                    setUnLengthMsg('Username should be between 3 and 15 characters.');
+                  }
+                };
+            
+                const simulateAsyncCheck = async (username) => {
+                  if (userDict.some((user) => user.username === username)) {
+                    return false;
+                  } else {
+                    return true;
+                  }
+                };
+
+                const isLengthy = async (username) => {
+                    if (username.length >= 3 && username.length <= 15) {
+                    return true;
+                  } else {
+                    return false;
+                  }
+                };
+
+            
+                isUnUnique();
+              }, [username]);
+
     const isEmailValid = () => {
-        // Validate email address
+        console.log(email);
         if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            // Update state to hide the validation message
-            // (assuming you have a state variable for emailNotValidMsg)
             setEmailNotValidMsg("");
-        } 
-        else {
+        } else {
             setEmailNotValidMsg("Email should be valid");
         }
 
         if (email != "") {
             setEmailIsRequiredMsg("");
-        }
-        else {
+        } else {
             setEmailIsRequiredMsg("Email should not be empty.");
         }
     };
 
-    
-
-    const isUnValid = () => {
-        if ((username.length >= 3) && (username.length <= 15)) {
-            setUnNotValidMsg("")
-        }
-        else {
-            setUnNotValidMsg("Username should count between 3 and 15 only.")
-        }
-
-        for (let i = 0; i < userDict.length; i++) {
-            const user = userDict[i];
-            if (user.username == username) {
-                setUnNotUniqueMsg("Username is already used.");
-                console.log(username);
-            }
-            else {
-                setUnNotUniqueMsg("");
-                console.log(username);
-            }
-        }
-    };
-    const [emailNotValid, setEmailNotValidMsg] = useState("");
-    const [emailIsRequired, setEmailIsRequiredMsg] = useState("");
-
-    const [unNotValid, setUnNotValidMsg] = useState("");
-    const [unNotUnique, setUnNotUniqueMsg] = useState("");
+    const [emailNotValid, setEmailNotValidMsg] = useState('');
+    const [emailIsRequired, setEmailIsRequiredMsg] = useState('');
+    const [unNotUniqueMsg, setUnNotUniqueMsg] = useState('');
+    const [unNotValid, setUnNotValidMsg] = useState('');
+    const [unLengthMsg, setUnLengthMsg] = useState('');
 
   return (
     <>
@@ -80,7 +83,6 @@ const SignUp = () => {
             className="rounded row"
             style={{ backgroundColor: "rgb(255, 255, 255)" }}
           >
-            {/* <!-- Left side --> */}
             <div className="col-md-6 g-0">
               <img
                 src={SignupBanner}
@@ -89,7 +91,6 @@ const SignUp = () => {
               />
             </div>
 
-            {/* <!-- Right side --> */}
             <div className="col-md-6 mx-auto my-3">
               <form className="p-1">
                 <p>
@@ -119,9 +120,8 @@ const SignUp = () => {
                     type="email"
                     value={email}
                     className="form-control"
-                    onChange={handleInput}
+                    onChange={(e) => setEmail(e.target.value.trim())}
                     onInput={isEmailValid}
-                    // onBlur={isEmailEmpty}
                     id="InputSignupEmail"
                   />
                   
@@ -141,19 +141,15 @@ const SignUp = () => {
                     type="text"
                     value={username}
                     className="form-control"
-                    onChange={(e) => setUsername(e.target.value.trim())}
-                    onInput={isUnValid}
+                    onChange={(e) => setUsername(e.target.value)}
+                    
                     id="InputSignupUN"
                   />
-                    <p style={{ color: "red" }}>
-                      {unNotValid}
-                    </p>
-                    <p style={{ color: "red" }}>
-                      {unNotUnique}
-                    </p>
+                    <p style={{ color: "red" }}> {unNotValid} </p>
+                    <p style={{ color: 'red' }}>{unNotUniqueMsg} </p>
                 </div>
 
-                {/*<div className="mb-3">
+                <div className="mb-3">
                   <label htmlFor="passwordInput" className="form-label">
                     Password
                   </label>
@@ -222,7 +218,7 @@ const SignUp = () => {
                   <a href="">
                     <i className="fa-brands fa-yahoo fs-1 p-3"></i>
                   </a>
-                </div> */}
+                </div>
               </form>
             </div>
           </div>

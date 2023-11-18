@@ -6,6 +6,7 @@ import React, { useState } from "react";
 const LogIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
   const [userDict] = useState([
     { username: "missy01", password: "password", email: "example@example.com" },
     { username: "shan01", password: "password01", email: "shan@example.com" },
@@ -36,8 +37,27 @@ const LogIn = () => {
     if (user) {
       setAcctDoNotExistMsg("");
       alert("Welcome, " + user.username + "!");
-    } else {
+    } 
+    else {
       setAcctDoNotExistMsg("Your email or password is incorrect. Try again.");
+    }
+  };
+
+  const isEmailEmpty = () => {
+    if (email == "") {
+        setEmailIsRequired("Email is required.");
+    }
+    else {
+        setEmailIsRequired("")
+    }
+  };
+
+  const isPWEmpty = () => {
+    if (password == "") {
+        setPwIsRequired("Password is should not be empty.");
+    }
+    else {
+        setPwIsRequired("");
     }
   };
 
@@ -45,6 +65,8 @@ const LogIn = () => {
   const [emailNotValidMsg, setEmailNotValidMsg] = useState("");
   const [emailNotExistMsg, setEmailNotExistMsg] = useState("");
   const [acctDoNotExistMsg, setAcctDoNotExistMsg] = useState("");
+  const [pwIsRequired, setPwIsRequired] = useState("");
+  const [emailIsRequired, setEmailIsRequired] = useState("");
 
   return (
     <>
@@ -75,6 +97,7 @@ const LogIn = () => {
 
               <div class="mb-3">
                 <p style={{ color: "red" }}>{acctDoNotExistMsg}</p>
+
                 <label for="inputLogEmail" class="form-label">
                   Email address
                 </label>
@@ -82,13 +105,15 @@ const LogIn = () => {
                   className="form-control"
                   type="email"
                   value={email}
-                  onInput={(e) => setEmail(e.target.value)}
-                  onBlur={validateLogEmail}
+                  onChange={(e) => setEmail(e.target.value)}
+                  onInput={validateLogEmail}
+                  onBlur={isEmailEmpty}
                   id="inputLogEmail"
                   placeholder="Email address"
                 />
                 <p style={{ color: "red" }}>{emailNotValidMsg}</p>
                 <p style={{ color: "red" }}>{emailNotExistMsg}</p>
+                <p style={{ color: "red" }}>{emailIsRequired}</p>
               </div>
 
               <div class="mb-3">
@@ -100,14 +125,35 @@ const LogIn = () => {
                   type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
+                  onBlur={isPWEmpty}
                   id="inputLogPassword"
                   placeholder="Password"
                 />
+                <p style={{ color: "red" }}>{pwIsRequired}</p>
+              </div>
+              
+              <div class="mb-3 form-check">
+                <input type="checkbox" class="form-check-input" id="checkBox" required/>
+                <label class="form-check-label" for="checkBox">Remember</label>
+                <div class="form-text">Save information to automatically log in.</div>
               </div>
 
               <br />
 
               <button className="btn btn-primary" onClick={login}>Log in</button>
+
+              <div class="my-3">
+                <a href="#">Forgot your password?</a>
+                <br />
+                <a href="/sign-up">Doesn't have an account?</a>
+              </div>
+
+              <div class="text-center">
+                <br />
+                <p>or</p>
+                <a href=""><i class="fa-brands fa-google fs-1 p-3"></i></a>
+                <a href=""><i class="fa-brands fa-yahoo fs-1 p-3"></i></a>
+              </div>
             </div>
           </div>
         </div>
