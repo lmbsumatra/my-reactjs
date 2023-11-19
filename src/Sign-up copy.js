@@ -9,47 +9,52 @@ const SignUp = () => {
     const [username, setUsername] = useState('');
 
     const userDict = [
-            { username: 'missy01', password: 'password', email: 'example@example.com' },
-            { username: 'shan01', password: 'password01', email: 'shan@example.com' },
-            ];
+      { username: 'missy01', password: 'password', email: 'example@example.com' },
+      { username: 'shan01', password: 'password01', email: 'shan@example.com' },
+    ];
+    
 
-            useEffect(() => {
-                const isUnUnique = async () => {
-                  const isUnique = await simulateAsyncCheck(username);
-                  const isLength = await isLengthy(username);
-
-                  if (isUnique) {
-                    setUnNotUniqueMsg('');
-                  } else {
-                    setUnNotUniqueMsg('Username was already used.');
-                  }
-
-                  if (isLength) {
-                    setUnNotUniqueMsg('');
-                  } else {
-                    setUnLengthMsg('Username should be between 3 and 15 characters.');
-                  }
-                };
-            
-                const simulateAsyncCheck = async (username) => {
-                  if (userDict.some((user) => user.username === username)) {
-                    return false;
-                  } else {
-                    return true;
-                  }
-                };
-
-                const isLengthy = async (username) => {
-                    if (username.length >= 3 && username.length <= 15) {
-                    return true;
-                  } else {
-                    return false;
-                  }
-                };
-
-            
-                isUnUnique();
-              }, [username]);
+    useEffect(() => {
+      const isUnUnique = async () => {
+        const isUnique = await simulateAsyncCheck(username);
+        const isLength = await isLengthy(username);
+  
+        if (isUnique && isLength) {
+          setUnNotUniqueMsg('');
+          setUnLengthMsg('');
+        } else {
+          if (!isUnique) {
+            setUnNotUniqueMsg('Username was already used.');
+          } else {
+            setUnNotUniqueMsg('');
+          }
+  
+          if (!isLength) {
+            setUnLengthMsg('Username should be between 3 and 15 characters.');
+          } else {
+            setUnLengthMsg('');
+          }
+        }
+      };
+  
+      const simulateAsyncCheck = async (username) => {
+        if (userDict.some((user) => user.username === username)) {
+          return false;
+        } else {
+          return true;
+        }
+      };
+  
+      const isLengthy = async (username) => {
+        if (username.length >= 3 && username.length <= 15) {
+          return true;
+        } else {
+          return false;
+        }
+      };
+  
+      isUnUnique();
+    }, [username]);
 
     const isEmailValid = () => {
         console.log(email);
@@ -142,7 +147,6 @@ const SignUp = () => {
                     value={username}
                     className="form-control"
                     onChange={(e) => setUsername(e.target.value)}
-                    
                     id="InputSignupUN"
                   />
                     <p style={{ color: "red" }}> {unNotValid} </p>

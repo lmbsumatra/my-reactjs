@@ -1,73 +1,29 @@
-import React, {useState} from "react";
-import Header from "./components/header/Header.jsx";
-import Footer from "./components/footer/Footer.jsx";
-import SignupBanner from "./components/images/sign-up.jpg";
+import React, { useState, useEffect } from "react";
+import Header from "./components/header/Header";
+import Footer from "./components/footer/Footer";
+import signUpBanner from "./components/images/sign-up.jpg";
+
+const Signup = () => {
+  const [fullName, setFullName] = useState('');
+  const [fullNameIsRequired, setfullNameIsRequiredMsg] = useState('');
+
+  const onSubmit = (e) => {
+    e.preventDefault(); 
+  };
 
 
-const SignUp = () => {
-    const [email, setEmail] = useState('');
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+  useEffect(() => {
+    validateFullName();
+  }, [fullName]);
 
-    const handleInput = (e) => {
-        this.setUsername({
-          [e.target.name]: e.target.value,
-        }, () => {
-          console.log(this.state); // logs the new values
-        });
-      }
-    const [userDict] = useState([
-        { username: "missy01", password: "password", email: "example@example.com" },
-        { username: "shan01", password: "password01", email: "shan@example.com" },
-      ]);
-
-    // Sign up email validation
-    const isEmailValid = () => {
-        // Validate email address
-        if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-            // Update state to hide the validation message
-            // (assuming you have a state variable for emailNotValidMsg)
-            setEmailNotValidMsg("");
-        } 
-        else {
-            setEmailNotValidMsg("Email should be valid");
-        }
-
-        if (email != "") {
-            setEmailIsRequiredMsg("");
-        }
-        else {
-            setEmailIsRequiredMsg("Email should not be empty.");
-        }
-    };
-
-    
-
-    const isUnValid = () => {
-        if ((username.length >= 3) && (username.length <= 15)) {
-            setUnNotValidMsg("")
-        }
-        else {
-            setUnNotValidMsg("Username should count between 3 and 15 only.")
-        }
-
-        for (let i = 0; i < userDict.length; i++) {
-            const user = userDict[i];
-            if (user.username == username) {
-                setUnNotUniqueMsg("Username is already used.");
-                console.log(username);
-            }
-            else {
-                setUnNotUniqueMsg("");
-                console.log(username);
-            }
-        }
-    };
-    const [emailNotValid, setEmailNotValidMsg] = useState("");
-    const [emailIsRequired, setEmailIsRequiredMsg] = useState("");
-
-    const [unNotValid, setUnNotValidMsg] = useState("");
-    const [unNotUnique, setUnNotUniqueMsg] = useState("");
+  const validateFullName = () => {
+    if (fullName == '') {
+      setfullNameIsRequiredMsg('Fullname is required.');
+    }
+    else {
+      setfullNameIsRequiredMsg('');
+    }
+  }
 
   return (
     <>
@@ -80,18 +36,16 @@ const SignUp = () => {
             className="rounded row"
             style={{ backgroundColor: "rgb(255, 255, 255)" }}
           >
-            {/* <!-- Left side --> */}
             <div className="col-md-6 g-0">
               <img
-                src={SignupBanner}
+                src={signUpBanner}
                 className="img-fluid object-fit-cover h-100 rounded"
                 alt="Sign up image banner."
               />
             </div>
 
-            {/* <!-- Right side --> */}
             <div className="col-md-6 mx-auto my-3">
-              <form className="p-1">
+              <form className="p-1" onSubmit={onSubmit}>
                 <p>
                   Joining our photography community is a breeze! Here, you'll
                   unlock a vibrant world of visual storytelling and connect with
@@ -100,61 +54,59 @@ const SignUp = () => {
                 </p>
 
                 <div className="mb-3">
-                  <label htmlFor="nameInput" className="form-label">
+                  <label for="nameInput" className="form-label">
                     Full name
                   </label>
                   <input
                     type="text"
                     className="form-control"
                     id="nameInput"
-                    required
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
                   />
+
+                  <p style={{color: "red"}}>{fullNameIsRequired}</p>
                 </div>
 
                 <div className="mb-3">
-                  <label htmlFor="InputSignupEmail" className="form-label">
+                  <label for="emailInput" className="form-label">
                     Email address
                   </label>
                   <input
                     type="email"
-                    value={email}
                     className="form-control"
-                    onChange={handleInput}
-                    onInput={isEmailValid}
-                    // onBlur={isEmailEmpty}
-                    id="InputSignupEmail"
+                    id="emailInput"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
-                  
-                    <p style={{ color: "red"}}>
-                      {emailNotValid}
-                    </p>
-                    <p style={{ color: "red"}}>
-                      {emailIsRequired}
-                    </p>
+
+                  <p style={{color: "red"}}>{emailIsRequired}</p>
+                  <p style={{color: "red"}}>{emailIs}</p>
                 </div>
 
-                 <div className="mb-3">
-                  <label htmlFor="InputSignupUN" className="form-label">
+                <div className="mb-3">
+                  <label for="usernameInput" className="form-label">
                     Username
                   </label>
                   <input
                     type="text"
-                    value={username}
                     className="form-control"
-                    onChange={(e) => setUsername(e.target.value.trim())}
-                    onInput={isUnValid}
-                    id="InputSignupUN"
+                    id="usernameInput"
+                    oninput="validateUN()"
+                    required
                   />
-                    <p style={{ color: "red" }}>
-                      {unNotValid}
+                  <div id="usernameValidation">
+                    <p id="unLength" className="d-none form-text">
+                      Username characters should only count between 3 and 15.
                     </p>
-                    <p style={{ color: "red" }}>
-                      {unNotUnique}
+                    <p id="unUnique" className="d-none form-text">
+                      Username already exist.
                     </p>
+                  </div>
                 </div>
 
-                {/*<div className="mb-3">
-                  <label htmlFor="passwordInput" className="form-label">
+                <div className="mb-3">
+                  <label for="passwordInput" className="form-label">
                     Password
                   </label>
                   <input
@@ -172,7 +124,7 @@ const SignUp = () => {
                 </div>
 
                 <div className="mb-3">
-                  <label htmlFor="passwordConfirm" className="form-label">
+                  <label for="passwordConfirm" className="form-label">
                     {" "}
                     Confirm password
                   </label>
@@ -197,7 +149,7 @@ const SignUp = () => {
                     id="checkBox"
                     required
                   />
-                  <label className="form-check-label" htmlFor="checkBox">
+                  <label className="form-check-label" for="checkBox">
                     Remember
                   </label>
                   <div className="form-text">
@@ -222,15 +174,16 @@ const SignUp = () => {
                   <a href="">
                     <i className="fa-brands fa-yahoo fs-1 p-3"></i>
                   </a>
-                </div> */}
+                </div>
               </form>
             </div>
           </div>
         </div>
       </section>
+
       <Footer />
     </>
   );
-};
+}
 
-export default SignUp;
+export default Signup;
