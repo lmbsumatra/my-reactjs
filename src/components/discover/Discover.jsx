@@ -23,7 +23,7 @@ const Discover = () => {
       <div className="row">
 
         <div className="col-lg-4 col-md-6 pt-3">
-          <a href="sample-post.html" className="text-decoration-none">
+          <a href="/sample-post" className="text-decoration-none">
             <div className="card">
               <img src={img1} alt="Post image 1" className="img-fluid object-fit-cover" style={{height: "300px"}}/>
               <div className="card-body">
@@ -42,7 +42,7 @@ const Discover = () => {
       </div>
 
         <div className="col-lg-4 col-md-6 pt-3">
-          <a href="sample-post.html" className="text-decoration-none">
+          <a href="/sample-post" className="text-decoration-none">
             <div className="card">
               <img src={img2} alt="Post image 2" className="img-fluid object-fit-cover" style={{height: "300px"}}/>
               <div className="card-body">
@@ -61,7 +61,7 @@ const Discover = () => {
       </div>
 
         <div className="col-lg-4 col-md-6 pt-3">
-          <a href="sample-post.html" className="text-decoration-none">
+          <a href="/sample-post" className="text-decoration-none">
             <div className="card">
               <img src={img3} alt="Post image 3" className="img-fluid object-fit-cover" style={{height: "300px"}}/>
               <div className="card-body">
@@ -80,7 +80,7 @@ const Discover = () => {
       </div>
 
         <div className="col-lg-4 col-md-6 pt-3">
-          <a href="sample-post.html" className="text-decoration-none">
+          <a href="/sample-post" className="text-decoration-none">
             <div className="card">
               <img src={img4} alt="Post image 4" className="img-fluid object-fit-cover" style={{height: "300px"}}/>
               <div className="card-body">
@@ -99,7 +99,7 @@ const Discover = () => {
       </div>
 
         <div className="col-lg-4 col-md-6 pt-3">
-          <a href="sample-post.html" className="text-decoration-none">
+          <a href="/sample-post" className="text-decoration-none">
             <div className="card">
               <img src={img5} alt="Post image 5" className="img-fluid object-fit-cover" style={{height: "300px"}}/>
               <div className="card-body">
@@ -118,7 +118,7 @@ const Discover = () => {
       </div>
 
         <div className="col-lg-4 col-md-6 pt-3">
-          <a href="sample-post.html" className="text-decoration-none">
+          <a href="/sample-post" className="text-decoration-none">
             <div className="card">
               <img src={img6} alt="Post image 6" className="img-fluid object-fit-cover" style={{height: "300px"}}/>
               <div className="card-body">
@@ -137,7 +137,7 @@ const Discover = () => {
       </div>
 
         <div className="col-lg-4 col-md-6 pt-3">
-          <a href="sample-post.html" className="text-decoration-none">
+          <a href="/sample-post" className="text-decoration-none">
             <div className="card">
               <img src={img7} alt="Post image 7" className="img-fluid object-fit-cover" style={{height: "300px"}}/>
               <div className="card-body">
@@ -156,7 +156,7 @@ const Discover = () => {
       </div>
 
         <div className="col-lg-4 col-md-6 pt-3">
-          <a href="sample-post.html" className="text-decoration-none">
+          <a href="/sample-post" className="text-decoration-none">
             <div className="card">
               <img src={img8} alt="Post image 8" className="img-fluid object-fit-cover" style={{height: "300px"}}/>
               <div className="card-body">
@@ -175,7 +175,7 @@ const Discover = () => {
       </div>
 
         <div className="col-lg-4 col-md-6 pt-3">
-          <a href="sample-post.html" className="text-decoration-none">
+          <a href="/sample-post" className="text-decoration-none">
             <div className="card">
               <img src={img9} alt="Post image 9" className="img-fluid object-fit-cover" style={{height: "300px"}}/>
               <div className="card-body">
@@ -194,7 +194,7 @@ const Discover = () => {
       </div>
 
         <div className="col-lg-4 col-md-6 pt-3">
-          <a href="sample-post.html" className="text-decoration-none">
+          <a href="/sample-post" className="text-decoration-none">
             <div className="card">
               <img src={img10} alt="Post image 10" className="img-fluid object-fit-cover" style={{height: "300px"}}/>
               <div className="card-body">
@@ -213,7 +213,7 @@ const Discover = () => {
       </div>
 
         <div className="col-lg-4 col-md-6 pt-3">
-          <a href="sample-post.html" className="text-decoration-none">
+          <a href="/sample-post" className="text-decoration-none">
             <div className="card">
               <img src={img11} alt="Post image 11" className="img-fluid object-fit-cover" style={{height: "300px"}}/>
               <div className="card-body">
@@ -232,7 +232,7 @@ const Discover = () => {
       </div>
 
         <div className="col-lg-4 col-md-6 pt-3">
-          <a href="sample-post.html" className="text-decoration-none">
+          <a href="/sample-post" className="text-decoration-none">
             <div className="card">
               <img src={img12} alt="Post image 12" className="img-fluid object-fit-cover" style={{height: "300px"}}/>
               <div className="card-body">
@@ -251,7 +251,7 @@ const Discover = () => {
       </div>
 
         <div className="col-lg-4 col-md-6 pt-3">
-          <a href="sample-post.html" className="text-decoration-none">
+          <a href="/sample-post" className="text-decoration-none">
             <div className="card">
               <img src={img13} alt="Post image 13" className="img-fluid object-fit-cover" style={{height: "300px"}}/>
               <div className="card-body">
@@ -270,7 +270,7 @@ const Discover = () => {
       </div>
 
         <div className="col-lg-4 col-md-6 pt-3">
-          <a href="sample-post.html" className="text-decoration-none">
+          <a href="/sample-post" className="text-decoration-none">
             <div className="card">
               <img src={img14} alt="Post image 14" className="img-fluid object-fit-cover" style={{height: "300px"}}/>
               <div className="card-body">
@@ -289,7 +289,7 @@ const Discover = () => {
       </div>
 
         <div className="col-lg-4 col-md-6 pt-3">
-          <a href="sample-post.html" className="text-decoration-none">
+          <a href="/sample-post" className="text-decoration-none">
             <div className="card">
               <img src={img15} alt="Post image 15" className="img-fluid object-fit-cover" style={{height: "300px"}}/>
               <div className="card-body">

@@ -1,16 +1,17 @@
 import Header from "./components/header/Header.jsx";
 import Footer from "./components/footer/Footer.jsx";
 import LoginBanner from "./components/images/log-in.jpg";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const LogIn = () => {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState('');
+  const [emailNotValid, setEmailNotValidMsg] = useState('');
+  const [emailNotExist, setEmailNotExistMsg] = useState('');
+  const [emailIsRequired, setEmailIsRequiredMsg] = useState('');
   const [emailTrigger, setEmailTrigger] = useState(false);
-  const [emailNotValid, setEmailNotValidMsg] = useState("");
-  const [emailNotExist, setEmailNotExistMsg] = useState("");
-  const [emailIsRequired, setEmailIsRequiredMsg] = useState("");
 
-  const [password, setPassword] = useState("");
+  const [password, setPassword] = useState('');
+  const [passwordIsRequired, setPasswordIsRequiredMsg] = useState('');
   const [passwordTrigger, setPasswordTrigger] = useState(false);
 
   const [userDict] = useState([
@@ -18,56 +19,75 @@ const LogIn = () => {
     { username: "shan01", password: "password01", email: "shan@example.com" },
   ]);
 
-  const [acctDoNotExist, setAcctDoNotExistMsg] = useState("");
-  const [passwordIsRequired, setPasswordIsRequired] = useState("");
+  const [acctDoNotExist, setAcctDoNotExistMsg] = useState('');
 
-  // Log in email validation
+  const onSubmit = (e) => {
+    e.preventDefault();
+  };
+  
+  // log in email validation
   useEffect(() => {
     if (emailTrigger) {
       validateLogEmail();
     }
   }, [email], [emailTrigger])
+
   const validateLogEmail = () => {
-    // Validate email address
+    // should be filled out
+    if (email == '') {
+      setEmailIsRequiredMsg("Email is required.");
+    } else {
+      setEmailIsRequiredMsg('');
+    }
+
+    // should have email formatting
     if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setEmailNotValidMsg("");
+      setEmailNotValidMsg('');
     } else {
       setEmailNotValidMsg("Email should be valid");
     }
 
-    // Validate if email exists
-    const emailExists = userDict.some((user) => user.email === email);
-    setEmailNotExistMsg(emailExists ? "" : "Email is not registered");
-  };
-
-  // Log in email to user's password validation
-  const login = () => {
-    const user = userDict.find(
-      (u) => u.email === email && u.password === password
-    );
-
-    if (user) {
-      setAcctDoNotExistMsg("");
-      alert("Welcome, " + user.username + "!");
-    } else {
-      setAcctDoNotExistMsg("Your email or password is incorrect. Try again.");
+    // check email existance
+    for (let i = 0; i < userDict.length; i++) {
+      const user = userDict[i];
+      if (user.email == email) {
+          setEmailNotExistMsg('');
+      }
+      else {
+        setEmailNotExistMsg('Email is not registered');
+      }
     }
   };
 
-  const isEmailEmpty = () => {
-    if (email == "") {
-      setEmailIsRequired("Email is required.");
-    } else {
-      setEmailIsRequired("");
+  // log in password validation
+  useEffect(() => {
+    if (passwordTrigger) {
+      validateLogPassword();
     }
-  };
+  }, [password], [passwordTrigger])
 
-  const isPWEmpty = () => {
-    if (password == "") {
-      setPwIsRequired("Password is should not be empty.");
+  const validateLogPassword = () => {
+    // should be filled out
+    if (password == '') {
+      setPasswordIsRequiredMsg("Email is required.");
     } else {
-      setPwIsRequired("");
+      setPasswordIsRequiredMsg('');
     }
+  }
+
+  // log in, email to user's password validation
+  const Login = () => {
+    for (let i = 0; i < userDict.length; i++) {
+      const user = userDict[i];
+      if ((user.email == email) && (user.password == password)) {
+          setAcctDoNotExistMsg('');
+          alert("Welcome, " + user.username + "!");
+          window.location.href = '/sample-post';
+      }
+      else {
+          setAcctDoNotExistMsg("Your email or password is incorrect. Try again.");
+      }
+  }
   };
 
   return (
@@ -96,80 +116,81 @@ const LogIn = () => {
                 Welcome back to Parisukat! We're thrilled to have you here
                 again.
               </p>
+              <form onSubmit={onSubmit}>
+                <div class="mb-3">
+                  <p style={{ color: "red"}}>{acctDoNotExist}</p>
+                  
+                  <label for="inputLogEmail" class="form-label">
+                    Email address
+                  </label>
+                  <input
+                    className="form-control"
+                    type="email"
+                    id="inputLogEmail"
+                    placeholder="Email address"
+                    value={email}
+                    onChange={(e) => {setEmail(e.target.value); setEmailTrigger(true);}}
+                  />
 
-              <div class="mb-3">
-                <p style={{ color: "red" }}>{acctDoNotExistMsg}</p>
-
-                <label for="inputLogEmail" class="form-label">
-                  Email address
-                </label>
-                <input
-                  className="form-control"
-                  type="email"
-                  id="inputLogEmail"
-                  placeholder="Email address"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-
-                <p style={{ color: "red" }}>{emailNotValidMsg}</p>
-                <p style={{ color: "red" }}>{emailNotExistMsg}</p>
-                <p style={{ color: "red" }}>{emailIsRequired}</p>
-              </div>
-
-              <div class="mb-3">
-                <label for="inputLogPassword" class="form-label">
-                  Password
-                </label>
-                <input
-                  className="form-control"
-                  type="password"
-                  id="inputLogPassword"
-                  placeholder="Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-
-                <p style={{ color: "red" }}>{pwIsRequired}</p>
-              </div>
-
-              <div class="mb-3 form-check">
-                <input
-                  type="checkbox"
-                  class="form-check-input"
-                  id="checkBox"
-                  required
-                />
-                <label class="form-check-label" for="checkBox">
-                  Remember
-                </label>
-                <div class="form-text">
-                  Save information to automatically log in.
+                  <p style={{ color: "red" }}>{emailIsRequired}</p>
+                  <p style={{ color: "red" }}>{emailNotExist}</p>
+                  <p style={{ color: "red" }}>{emailNotValid}</p>
                 </div>
-              </div>
 
-              <br />
+                <div class="mb-3">
+                  <label for="inputLogPassword" class="form-label">
+                    Password
+                  </label>
+                  <input
+                    className="form-control"
+                    type="password"
+                    id="inputLogPassword"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => {setPassword(e.target.value); setPasswordTrigger(true);}}
+                  />
 
-              <button className="btn btn-primary" onClick={login}>
-                Log in
-              </button>
+                  <p style={{ color: "red" }}>{passwordIsRequired}</p>
+                </div>
 
-              <div class="my-3">
-                <a href="#">Forgot your password?</a>
+                <div class="mb-3 form-check">
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    id="checkBox"
+                    required
+                  />
+                  <label class="form-check-label" for="checkBox">
+                    Remember
+                  </label>
+                  <div class="form-text">
+                    Save information to automatically log in.
+                  </div>
+                </div>
+
                 <br />
-                <a href="/sign-up">Doesn't have an account?</a>
-              </div>
 
-              <div class="text-center">
-                <br />
-                <p>or</p>
-                <a href="">
-                  <i class="fa-brands fa-google fs-1 p-3"></i>
-                </a>
-                <a href="">
-                  <i class="fa-brands fa-yahoo fs-1 p-3"></i>
-                </a>
-              </div>
+                <button className="btn btn-primary" onClick={Login}>
+                  Log in
+                </button>
+
+                <div class="my-3">
+                  <a href="#">Forgot your password?</a>
+                  <br />
+                  <a href="/sign-up">Doesn't have an account?</a>
+                </div>
+
+                <div class="text-center">
+                  <br />
+                  <p>or</p>
+                  <a href="">
+                    <i class="fa-brands fa-google fs-1 p-3"></i>
+                  </a>
+                  <a href="">
+                    <i class="fa-brands fa-yahoo fs-1 p-3"></i>
+                  </a>
+                </div>
+              </form>
             </div>
           </div>
         </div>
