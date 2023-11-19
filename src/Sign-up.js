@@ -4,26 +4,178 @@ import Footer from "./components/footer/Footer";
 import signUpBanner from "./components/images/sign-up.jpg";
 
 const Signup = () => {
-  const [fullName, setFullName] = useState('');
-  const [fullNameIsRequired, setfullNameIsRequiredMsg] = useState('');
+  const [fullName, setFullName] = useState("");
+  const [fullNameIsRequired, setfullNameIsRequiredMsg] = useState("");
+  const [fullNameTrigger, setFullNameTrigger] = useState(false);
+
+  const [email, setEmail] = useState("");
+  const [emailIsRequired, setEmailIsRequiredMsg] = useState("");
+  const [emailIsNotValid, setEmailIsNotValidMsg] = useState("");
+  const [emailWhiteSpace, setEmailWhiteSpaceMsg] = useState("");
+  const [emailTrigger, setEmailTrigger] = useState(false);
+
+  const [username, setUsername] = useState("");
+  const [usernameIsRequired, setUserNameIsRequiredMsg] = useState("");
+  const [userNameNotValid, setUserNameNotValidMsg] = useState("");
+  const [userNameAlreadyExist, setUserNameAlreadyExistMsg] = useState("");
+  const [userNameWhiteSpace, setUserNameWhiteSpaceMsg] = useState("");
+  const [userNameTrigger, setUserNameTrigger] = useState(false);
+  const [userDict] = useState([
+    { username: "missy01", password: "password", email: "example@example.com" },
+    { username: "shan01", password: "password01", email: "shan@example.com" },
+  ]);
+
+  const [password, setPassword] = useState("");
+  const [passwordIsRequired, setPasswordIsRequiredMsg] = useState("");
+  const [passwordNotValid, setPasswordNotValidMsg] = useState("");
+  const [passwordTrigger, setPasswordTrigger] = useState(false);
+
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [confirmPasswordIncorrect, setConfirmPasswordIncorrect] = useState("");
+  const [confirmPasswordTrigger, setConfirmPasswordTrigger] = useState(false);
 
   const onSubmit = (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
   };
 
-
-  useEffect(() => {
-    validateFullName();
-  }, [fullName]);
+  // validation for fullname
+  useEffect(
+    () => {
+      if (fullNameTrigger) {
+        validateFullName();
+      }
+    },
+    [fullName],
+    [fullNameTrigger]
+  );
 
   const validateFullName = () => {
-    if (fullName == '') {
-      setfullNameIsRequiredMsg('Fullname is required.');
+    // should be filled out
+    if (fullName == "") {
+      setfullNameIsRequiredMsg("Fullname is required.");
+    } else {
+      setfullNameIsRequiredMsg("");
+    }
+  };
+
+  // validation for email
+  useEffect(() => {
+    if (emailTrigger) {
+      validateEmail();
+    }
+  }, [email][emailTrigger]);
+
+  const validateEmail = () => {
+    // should be filled out
+    if (email == "") {
+      setEmailIsRequiredMsg("Email is required.");
+    } else {
+      setEmailIsRequiredMsg("");
+    }
+
+    //s should not contain white space
+    if (/\s/.test(email)) {
+      setEmailWhiteSpaceMsg("Email cannot contain whitespace.");
+    } else {
+      setEmailWhiteSpaceMsg("");
+    }
+
+    // should have email formatting
+    if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setEmailIsNotValidMsg("");
+    } else {
+      setEmailIsNotValidMsg("Email should be valid.");
+    }
+  };
+
+  // validation for username
+  useEffect(
+    () => {
+      if (userNameTrigger) {
+        validateUserName();
+      }
+    },
+    [username],
+    [userNameTrigger]
+  );
+
+  const validateUserName = () => {
+    // should be filled out
+    if (username == "") {
+      setUserNameIsRequiredMsg("Username is required.");
+    } else {
+      setUserNameIsRequiredMsg("");
+    }
+
+    if (username.length < 3 || username.length > 15) {
+      setUserNameNotValidMsg("Username length should be between 3 and 15.");
+    } else {
+      setUserNameNotValidMsg("");
+    }
+
+    //s should not contain white space
+    if (/\s/.test(username)) {
+      setUserNameWhiteSpaceMsg("Username cannot contain whitespace.");
+    } else {
+      setUserNameWhiteSpaceMsg("");
+    }
+
+    // should be unique
+    for (let i = 0; i < userDict.length; i++) {
+      const user = userDict[i];
+      if (user.username != username) {
+        setUserNameAlreadyExistMsg("");
+      } else {
+        setUserNameAlreadyExistMsg("Username was already used.");
+      }
+    }
+  };
+
+  // validation for password
+  useEffect(() => {
+    if (passwordTrigger) {
+      validatePassword();
+    }
+  }, [password]);
+
+  const validatePassword = () => {
+    // should be filled out
+    if (password == "") {
+      setPasswordIsRequiredMsg("Password is required.");
+    } else {
+      setPasswordIsRequiredMsg("");
+    }
+
+    // should count between 8 and 20
+    if (password.length < 8 || password.length > 20) {
+      setPasswordNotValidMsg(
+        "Password characters should only count between 8 and 20."
+      );
+    } else {
+      setPasswordNotValidMsg("");
+    }
+  };
+
+  // validation for password confirmation
+  useEffect(
+    () => {
+      if (confirmPasswordTrigger) {
+        validateConfirmPassword();
+      }
+    },
+    [confirmPassword],
+    [confirmPasswordTrigger]
+  );
+
+  const validateConfirmPassword = () => {
+    // 
+    if (confirmPassword === password) {
+      setConfirmPasswordIncorrect('');
     }
     else {
-      setfullNameIsRequiredMsg('');
+      setConfirmPasswordIncorrect('Password do not match.');
     }
-  }
+  };
 
   return (
     <>
@@ -62,10 +214,13 @@ const Signup = () => {
                     className="form-control"
                     id="nameInput"
                     value={fullName}
-                    onChange={(e) => setFullName(e.target.value)}
+                    onChange={(e) => {
+                      setFullName(e.target.value);
+                      setFullNameTrigger(true);
+                    }}
                   />
 
-                  <p style={{color: "red"}}>{fullNameIsRequired}</p>
+                  <p style={{ color: "red" }}>{fullNameIsRequired}</p>
                 </div>
 
                 <div className="mb-3">
@@ -77,11 +232,15 @@ const Signup = () => {
                     className="form-control"
                     id="emailInput"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                      setEmailTrigger(true);
+                    }}
                   />
 
-                  <p style={{color: "red"}}>{emailIsRequired}</p>
-                  <p style={{color: "red"}}>{emailIs}</p>
+                  <p style={{ color: "red" }}>{emailIsRequired}</p>
+                  <p style={{ color: "red" }}>{emailIsNotValid}</p>
+                  <p style={{ color: "red" }}>{emailWhiteSpace}</p>
                 </div>
 
                 <div className="mb-3">
@@ -92,17 +251,16 @@ const Signup = () => {
                     type="text"
                     className="form-control"
                     id="usernameInput"
-                    oninput="validateUN()"
-                    required
+                    onChange={(e) => {
+                      setUsername(e.target.value);
+                      setUserNameTrigger(true);
+                    }}
                   />
-                  <div id="usernameValidation">
-                    <p id="unLength" className="d-none form-text">
-                      Username characters should only count between 3 and 15.
-                    </p>
-                    <p id="unUnique" className="d-none form-text">
-                      Username already exist.
-                    </p>
-                  </div>
+
+                  <p style={{ color: "red" }}>{usernameIsRequired}</p>
+                  <p style={{ color: "red" }}>{userNameNotValid}</p>
+                  <p style={{ color: "red" }}>{userNameAlreadyExist}</p>
+                  <p style={{ color: "red" }}>{userNameWhiteSpace}</p>
                 </div>
 
                 <div className="mb-3">
@@ -113,14 +271,15 @@ const Signup = () => {
                     type="password"
                     className="form-control"
                     id="passwordInput"
-                    oninput="validatePW()"
-                    required
+                    value={password}
+                    onChange={(e) => {
+                      setPassword(e.target.value);
+                      setPasswordTrigger(true);
+                    }}
                   />
-                  <div id="passwordValidation">
-                    <p id="pwLength" className="d-none form-text">
-                      Password characters should only count between 8 and 20.
-                    </p>
-                  </div>
+
+                  <p style={{ color: "red" }}>{passwordIsRequired}</p>
+                  <p style={{ color: "red" }}>{passwordNotValid}</p>
                 </div>
 
                 <div className="mb-3">
@@ -132,14 +291,13 @@ const Signup = () => {
                     type="password"
                     className="form-control"
                     id="passwordConfirm"
-                    oninput="validatePWConfirm()"
-                    required
+                    onChange={(e) => {
+                      setConfirmPassword(e.target.value);
+                      setConfirmPasswordTrigger(true);
+                    }}
                   />
-                  <div id="passwordConfirmation">
-                    <p id="pwConfirm" className="d-none form-text">
-                      It should match the password you first entered.
-                    </p>
-                  </div>
+
+                  <p style={{ color: "red" }}>{confirmPasswordIncorrect}</p>
                 </div>
 
                 <div className="mb-3 form-check">
@@ -184,6 +342,6 @@ const Signup = () => {
       <Footer />
     </>
   );
-}
+};
 
 export default Signup;
